@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import HeroSection from "@/components/HeroSection";
 import AppsSection from "@/components/AppsSection";
+import RequirementsSection from "@/components/RequirementsSection";
+import PricingSection from "@/components/PricingSection";
+import SafeDealSection from "@/components/SafeDealSection";
+import AboutSection from "@/components/AboutSection";
 import ContactModal from "@/components/ContactModal";
 
 const Index = () => {
@@ -21,6 +25,10 @@ const Index = () => {
       <main className="bg-background min-h-screen overflow-x-hidden">
         <HeroSection onCtaClick={() => setIsModalOpen(true)} />
         <AppsSection />
+        <RequirementsSection />
+        <PricingSection />
+        <SafeDealSection />
+        <AboutSection />
         <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </main>
     </>
