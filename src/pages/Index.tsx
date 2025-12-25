@@ -1,13 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import HeroSection from "@/components/HeroSection";
+import AppsSection from "@/components/AppsSection";
+import ContactModal from "@/components/ContactModal";
 
 const Index = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <Helmet>
+        <title>Разработка мобильных приложений | Android разработчик</title>
+        <meta
+          name="description"
+          content="Профессиональная разработка Android-приложений для бизнеса, сервисов и стартапов. Полный цикл от идеи до публикации в RuStore и Google Play."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Helmet>
+
+      <main className="bg-background min-h-screen overflow-x-hidden">
+        <HeroSection onCtaClick={() => setIsModalOpen(true)} />
+        <AppsSection />
+        <ContactModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      </main>
+    </>
   );
 };
 
