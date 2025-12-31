@@ -5,18 +5,18 @@ import { Shield, Lock, CheckCircle } from "lucide-react";
 const features = [
   {
     icon: Shield,
-    text: "Работа через kwork.ru",
-    highlight: "kwork.ru",
+    text: "Работа по предоплате",
+    highlight: "предоплате",
   },
   {
     icon: Lock,
-    text: "Деньги удерживаются сервисом",
-    highlight: "удерживаются сервисом",
+    text: "Прозрачные условия и фиксированная цена",
+    highlight: "фиксированная цена",
   },
   {
     icon: CheckCircle,
-    text: "Оплата после подтверждения результата",
-    highlight: "после подтверждения",
+    text: "Гарантия результата и поддержка",
+    highlight: "Гарантия результата",
   },
 ];
 
@@ -103,8 +103,8 @@ const SafeDealSection = () => {
                 isVisible && "animate-fade-up"
               )}
             >
-              <span className="text-foreground">Безопасная </span>
-              <span className="gradient-text">сделка</span>
+              <span className="text-foreground">Как я </span>
+              <span className="gradient-text">работаю</span>
             </h2>
 
             <div className="space-y-5">

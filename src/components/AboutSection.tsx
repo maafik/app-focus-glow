@@ -68,8 +68,8 @@ const AboutSection = () => {
             >
               Я разработчик мобильных{" "}
               <span className="text-foreground font-medium">Android-приложений</span>. 
-              Делаю удобные и понятные продукты. Работаю напрямую и через{" "}
-              <span className="text-primary">безопасную сделку</span>.
+              Делаю удобные и понятные продукты. Работаю напрямую{" "}
+              <span className="text-primary">по предоплате</span>.
             </p>
           </div>
         </div>
