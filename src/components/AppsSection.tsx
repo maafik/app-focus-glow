@@ -6,6 +6,10 @@ const AppsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
+  const handleSkillClick = (skillIndex: number) => {
+    setActiveIndex(skillIndex);
+  };
+
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -41,15 +45,15 @@ const AppsSection = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[180vh] py-20"
+      className="relative min-h-[120vh] py-8"
     >
       {/* Sticky container */}
-      <div className="sticky top-0 min-h-screen flex items-center py-12">
+      <div className="sticky top-0 min-h-screen flex items-center py-2">
         <div className="container px-6 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Skills list - Left side */}
             <div className="order-2 lg:order-1 lg:pl-8">
-              <SkillsList activeIndex={activeIndex} />
+              <SkillsList activeIndex={activeIndex} onSkillClick={handleSkillClick} />
             </div>
 
             {/* Carousel - Right side */}
@@ -59,7 +63,7 @@ const AppsSection = () => {
           </div>
 
           {/* Progress indicator */}
-          <div className="flex justify-center gap-2 mt-8">
+          <div className="flex justify-center gap-2 mt-1">
             {apps.map((_, index) => (
               <button
                 key={index}

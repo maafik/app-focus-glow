@@ -30,11 +30,11 @@ const HeroSection = ({ onCtaClick }: HeroSectionProps) => {
 
         {/* Supporting text */}
         <p className="opacity-0 animate-fade-up animation-delay-400 text-sm md:text-base text-muted-foreground/70 mb-10 max-w-lg mx-auto">
-          Полный цикл: идея → дизайн → разработка → публикация → поддержка
+          Полный цикл: идея → дизайн → разработка → публикация → поддержка и развитие
         </p>
 
         {/* CTA Button */}
-        <div className="opacity-0 animate-fade-up animation-delay-600">
+        <div className="opacity-0 animate-fade-up animation-delay-600 flex justify-center">
           <Button
             variant="neon"
             size="xl"

@@ -10,25 +10,27 @@ const skills = [
 
 interface SkillsListProps {
   activeIndex: number;
+  onSkillClick?: (skillIndex: number) => void;
 }
 
-const SkillsList = ({ activeIndex }: SkillsListProps) => {
+const SkillsList = ({ activeIndex, onSkillClick }: SkillsListProps) => {
   // Map carousel index to skill index (cycle through skills)
   const activeSkillIndex = activeIndex % skills.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <h2 className="text-2xl md:text-3xl font-bold">
         <span className="text-foreground">Что я умею в </span>
         <span className="gradient-text">мобильной разработке:</span>
       </h2>
       
-      <ul className="space-y-4">
+      <ul className="space-y-1">
         {skills.map((skill, index) => (
           <li
             key={index}
+            onClick={() => onSkillClick?.(index)}
             className={cn(
-              "flex items-center gap-3 text-base md:text-lg transition-all duration-500",
+              "flex items-center gap-3 text-base md:text-lg transition-all duration-500 cursor-pointer hover:bg-muted/20 rounded-lg p-2 -mx-2",
               index === activeSkillIndex
                 ? "text-foreground translate-x-2"
                 : "text-muted-foreground"

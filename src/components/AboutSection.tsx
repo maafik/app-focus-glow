@@ -36,10 +36,12 @@ const AboutSection = () => {
             <div className="relative">
               <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-br from-primary to-secondary p-[3px]">
                 <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
-                  {/* Placeholder avatar with initials */}
-                  <span className="text-3xl md:text-4xl font-bold gradient-text">
-                    АВ
-                  </span>
+                  {/* Avatar image */}
+                  <img 
+                    src="/avatar.jpg" 
+                    alt="AB Android-разработчик" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
               {/* Glow ring */}
