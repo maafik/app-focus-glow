@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to irinasketch.online
 
 on:
   push:
@@ -9,10 +9,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     
     steps:
     - name: Checkout repository
@@ -30,14 +26,17 @@ jobs:
     - name: Build project
       run: npm run build
       
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.9.0
       with:
-        path: ./dist
+        ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
         
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+    - name: Deploy to server
+      run: |
+        # Копируем собранные файлы на сервер
+        scp -o StrictHostKeyChecking=no -r dist/* ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/var/www/irinasketch.online/
+        
+        # Перезапускаем веб-сервер
+        ssh -o StrictHostKeyChecking=no ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} << 'EOF'
+          sudo systemctl reload nginx || sudo systemctl reload apache2 || true
+        EOF
