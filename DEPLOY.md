@@ -1,101 +1,80 @@
-# Развертывание на irinasketch.online
+# Развертывание на GitHub Pages с доменом irinasketch.online
 
 ## Что нужно сделать:
 
-### 1. Заказать VDS/VPS сервер
+### 1. Включить GitHub Pages
 
-Закажите сервер на reg.ru или другом хостинге:
-- Минимальная конфигурация (1-2 CPU, 1-2 GB RAM)
-- Ubuntu 22.04
-- Получите IP-адрес, SSH ключ и пароль
+1. Перейдите в репозиторий → Settings → Pages
+2. В разделе "Build and deployment" выберите:
+   - Source: **GitHub Actions**
+3. Нажмите "Save"
 
-### 2. Настройка GitHub Secrets
+### 2. Добавить кастомный домен
 
-В репозитории → Settings → Secrets and variables → Actions добавьте:
+1. В Settings → Pages в разделе "Custom domain" добавьте:
+   - `irinasketch.online`
+   - Нажмите "Save"
 
-- **DEPLOY_SSH_KEY**: Приватный SSH ключ от сервера
-- **DEPLOY_USER**: Имя пользователя (обычно `root`)
-- **DEPLOY_HOST**: IP-адрес сервера
+2. GitHub покажет DNS записи которые нужно добавить:
+   - 4 A-записи
+   - 1 CNAME-запись (опционально для www)
 
-### 3. Настройка сервера
+### 3. Настроить DNS на reg.ru
 
-Подключитесь к серверу по SSH и выполните:
+В панели управления доменом irinasketch.online добавьте:
 
-```bash
-# Обновление системы
-sudo apt update && sudo apt upgrade -y
+**A-записи:**
+- `@` → `185.199.108.153`
+- `@` → `185.199.109.153` 
+- `@` → `185.199.110.153`
+- `@` → `185.199.111.153`
 
-# Установка nginx
-sudo apt install nginx -y
+**CNAME-запись (для www):**
+- `www` → `username.github.io` (замените username на ваш GitHub ник)
 
-# Создание директории для сайта
-sudo mkdir -p /var/www/irinasketch.online
-sudo chown -R $USER:$USER /var/www/irinasketch.online
+### 4. Настроить Vite для корневого домена
 
-# Настройка nginx
-sudo tee /etc/nginx/sites-available/irinasketch.online << 'EOF'
-server {
-    listen 80;
-    server_name irinasketch.online www.irinasketch.online;
-    
-    root /var/www/irinasketch.online;
-    index index.html;
-    
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-    
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-}
-EOF
+В `vite.config.ts` уже настроен `base: '/'` - это правильно для корневого домена.
 
-# Активация сайта
-sudo ln -s /etc/nginx/sites-available/irinasketch.online /etc/nginx/sites-enabled/
-sudo rm /etc/nginx/sites-enabled/default
-sudo nginx -t
-sudo systemctl reload nginx
-```
+### 5. Процесс деплоя
 
-### 4. Настройка домена
+1. Сделайте commit и push изменений
+2. GitHub Actions автоматически соберет и опубликует проект
+3. Дождитесь завершения деплоя (2-5 минут)
+4. Проверьте `https://irinasketch.online`
 
-1. Если домен irinasketch.online на reg.ru:
-   - Добавьте A-запись: `[IP_ВАШЕГО_СЕРВЕРА]`
-   - Добавьте WWW-запись: `[IP_ВАШЕГО_СЕРВЕРА]`
+### 6. Проверка
 
-2. Если домен elsewhere:
-   - Настройте DNS так же
-
-### 5. SSL сертификат (рекомендуется)
-
-```bash
-# Установка Certbot
-sudo apt install certbot python3-certbot-nginx -y
-
-# Получение сертификата
-sudo certbot --nginx -d irinasketch.online -d www.irinasketch.online
-```
-
-### 6. Процесс деплоя
-
-После настройки:
-1. Сделайте commit и push в репозиторий
-2. GitHub Actions автоматически соберет и развернет проект
-3. Сайт будет доступен по https://irinasketch.online
-
-### 7. Проверка
-
-Проверьте:
+После деплоя проверьте:
 - irinasketch.online открывается
-- HTTPS работает
-- Все стили загружаются
-- React роутинг работает
+- HTTPS работает (автоматически от GitHub)
+- Все стили и скрипты загружаются
+- React роутинг работает корректно
 
-## Если нужна помощь
+### 7. Преимущества этого подхода
 
-Предоставьте:
-- IP-адрес сервера
-- Доступ по SSH (ключ или пароль)
-- Информацию о регистраторе домена
+- ✅ **Бесплатно** - нет затрат на хостинг
+- ✅ **Автоматический деплой** - каждый push обновляет сайт
+- ✅ **HTTPS** - автоматически от GitHub
+- ✅ **CDN** - быстрая загрузка globally
+- ✅ **Надежность** - инфраструктура GitHub
+- ✅ **Ваш домен** - irinasketch.online
+
+### 8. Если возникнут проблемы
+
+**DNS не обновляется:**
+- Подождите до 24 часов после добавления DNS записей
+- Проверьте записи через `nslookup irinasketch.online`
+
+**Сайт не открывается:**
+- Проверьте статус деплоя в Actions
+- Убедитесь что GitHub Pages включен
+- Проверьте DNS записи
+
+**Стили не загружаются:**
+- Проверьте что `base: '/'` в vite.config.ts
+- Очистите кэш браузера
+
+## Готово!
+
+После настройки DNS ваш сайт будет доступен по адресу **https://irinasketch.online** полностью бесплатно!
